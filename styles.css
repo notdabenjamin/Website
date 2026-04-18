@@ -1,0 +1,315 @@
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8cc88;
+      --dark: #0d0b08;
+      --text: #e8e0d0;
+      --muted: #a89880;
+      --fi: 90px; /* frame inset — distance from edge where content starts */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #070a33;
+      color: var(--text);
+      font-family: 'Cormorant Garamond', serif;
+      overflow: hidden;
+      zoom: reset;
+    }
+
+    a { color: inherit}
+
+    /* ══════════════════════════════════════════
+       INTRO
+    ══════════════════════════════════════════ */
+    #intro {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #000;
+      opacity: 1;
+      transition: opacity 1.2s ease;
+    }
+    #intro.fade-out { opacity: 0; pointer-events: none; }
+    #intro-video {
+      width: 100%; height: 100%; object-fit: cover;
+      pointer-events: none; user-select: none; -webkit-user-select: none;
+    }
+    #intro-video::-webkit-media-controls,
+    #intro-video::-webkit-media-controls-enclosure { display: none !important; }
+
+    /* ══════════════════════════════════════════
+       SITE SHELL
+    ══════════════════════════════════════════ */
+    #site {
+      position: fixed; inset: 0;
+      opacity: 0;
+      transition: opacity 1.2s ease 0.1s;
+      overflow: hidden;
+    }
+    #site.visible { opacity: 1; }
+
+    /* Frame — always on top, fully locked */
+    #frame {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      pointer-events: none;
+      user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+      z-index: 100;
+    }
+
+    /* Scrollable layer */
+    #scroll {
+      position: fixed; inset: 0;
+      z-index: 5;
+      overflow-y: auto;
+      scrollbar-width: none; -ms-overflow-style: none;
+    }
+    #scroll::-webkit-scrollbar { display: none; }
+
+    /* All content lives in here, respecting the frame inset */
+    #inner {
+      padding: 0 var(--fi);
+      /* extra bottom so last section isn't hidden by frame border */
+      padding-bottom: calc(var(--fi) + 40px);
+    }
+
+    /* ══════════════════════════════════════════
+       FIXED TOP-BAR  (nav + socials)
+       sits inside the frame inset, above scroll
+    ══════════════════════════════════════════ */
+    #topbar {
+      position: fixed;
+      top: calc(var(--fi) - 70px);
+      left: var(--fi);
+      right: var(--fi);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0 8px;
+      border-bottom: 1px solid rgba(201,168,76,0.22);
+      background: #070a33;
+    }
+
+    /* NAV — top center */
+    #nav {
+      position: absolute;
+      left: 50%; transform: translateX(-50%);
+      display: flex; gap: 28px;
+    }
+    #nav a {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.2s, color 0.2s;
+      position: relative;
+    }
+    #nav a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--gold);
+      transform: scaleX(0); transform-origin: center;
+      transition: transform 0.25s ease;
+    }
+    #nav a:hover { opacity: 1; color: var(--gold); }
+    #nav a:hover::after { transform: scaleX(1); }
+
+    /* SOCIALS — top right, icons only */
+    #socials {
+      display: flex; gap: 13px; align-items: center;
+    }
+    #socials a {
+      color: var(--gold);
+      opacity: 0.65;
+      transition: opacity 0.2s, transform 0.2s;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+    }
+    #socials a:hover { opacity: 1; transform: scale(1.2); }
+    #socials a svg {
+      width: 17px; height: 17px;
+      stroke: currentColor; stroke-width: 1.6;
+      fill: none;
+    }
+    /* Left spacer to balance flex layout */
+    #topbar-left { width: 180px; }
+
+    /* ══════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════ */
+    #hero {
+      padding-top: 120px;
+      /* viewport-height minus topbar, frame insets; centre then pull up ~8vh */
+      min-height: calc(100vh - var(--fi) - 60px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 14vh;   /* pulls content slightly above true centre */
+      text-align: center;
+      gap: 16px;
+    }
+
+    .eyebrow {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.65;
+    }
+
+    .ornament {
+      display: flex; align-items: center; gap: 12px;
+      color: var(--gold); opacity: 0.35; font-size: 1rem;
+    }
+    .ornament::before, .ornament::after {
+      content: ''; flex: 1 1 50px;
+      height: 1px; background: currentColor;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(2rem, 4.8vw, 4rem);
+      font-weight: 700;
+      color: var(--gold-light);
+      line-height: 1.15;
+      text-shadow: 0 0 70px rgba(201,168,76,0.3);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--muted);
+      max-width: 500px;
+      line-height: 1.75;
+    }
+
+    /* ══════════════════════════════════════════
+       ALTERNATING SECTIONS
+    ══════════════════════════════════════════ */
+    .sections { display: flex; flex-direction: column; }
+
+    .section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 52px;
+      padding: 68px 0;
+      align-items: center;
+      border-top: 1px solid rgba(201,168,76,0.1);
+      /* scroll-reveal */
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .section.in-view { opacity: 1; transform: translateY(0); }
+
+    /* Even sections flip: text→right, image→left */
+    .section:nth-child(even) .section-text { order: 2; }
+    .section:nth-child(even) .section-img  { order: 1; }
+
+    .section-text {
+      display: flex; flex-direction: column; gap: 14px;
+    }
+
+    .section-tag {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.52rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.6;
+    }
+
+    .section-heading {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1rem, 2vw, 1.75rem);
+      color: var(--gold-light);
+      line-height: 1.35;
+    }
+
+    .section-body {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.9;
+      color: var(--muted);
+      max-width: 42ch;
+    }
+
+    .section-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.54rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      opacity: 0.75;
+      margin-top: 4px;
+      transition: opacity 0.2s, gap 0.2s;
+    }
+    .section-link:hover { opacity: 1; gap: 14px; }
+    .section-link svg { width: 13px; height: 13px; stroke-width: 2; }
+
+    /* Image box */
+    .section-img {
+      aspect-ratio: 4/3;
+      background: rgba(201,168,76,0.05);
+      border: 5px solid rgba(201,168,76,0.15);
+      border-radius: 2px;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(201,168,76,0.2);
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      position: relative;
+    }
+    .section-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* Corner accents */
+    .section-img::before, .section-img::after {
+      content: ''; position: absolute;
+      width: 18px; height: 18px;
+      border-color: rgba(201,168,76,0.3);
+      border-style: solid;
+      pointer-events: none;
+    }
+    .section-img::before { top: 7px; left: 7px;  border-width: 1px 0 0 1px; }
+    .section-img::after  { bottom: 7px; right: 7px; border-width: 0 1px 1px 0; }
+
+    .footer-gap { height: 60px; }
+    /* ══════════════════════════════════════════
+       Scrolling
+    ══════════════════════════════════════════ */
+    /* 1. The entire scrollbar */
+    ::-webkit-scrollbar {
+  width: 12px;               /* Width of the vertical scrollbar */
+  height: 12px;              /* Height of the horizontal scrollbar */
+    }
+
+
+::-webkit-scrollbar-track {
+  background: #e8e0d0;
+  border-radius: 10px; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e8e0d0;
+  border-radius: 10px;
+  border: 3px solid #e8e0d0; /* Creates padding effect around thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e8e0d0;
+}
+/* Apply to the whole page */
+html {
+  scrollbar-color: #e8e0d0 #e4bd6f; /* thumb track */
+}
+
