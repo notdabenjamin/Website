@@ -80,7 +80,7 @@
     ══════════════════════════════════════════ */
     #topbar {
       position: fixed;
-      top: calc(var(--fi) - 70px);
+      top: 20px;
       left: var(--fi);
       right: var(--fi);
       z-index: 50;
