@@ -45,6 +45,12 @@
       opacity: 0;
       transition: opacity 1.2s ease 0.1s;
       overflow: hidden;
+       position: fixed;
+       inset: 0;
+       opacity: 0;
+       transition: opacity 1.2s ease 0.1s;
+       overflow: hidden;
+       background: #070a33;
     }
     #site.visible { opacity: 1; }
 
@@ -79,18 +85,23 @@
        sits inside the frame inset, above scroll
     ══════════════════════════════════════════ */
     #topbar {
-      position: fixed;
-      top: 20px;
-      left: var(--fi);
-      right: var(--fi);
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 0 8px;
-      border-bottom: 1px solid rgba(201,168,76,0.22);
-      background: #070a33;
-    }
+  position: fixed;
+  top: 0;
+  left: var(--fi);
+  right: var(--fi);
+  z-index: 50;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 50px 0 8px;
+  border-bottom: 1px solid rgba(201,168,76,0.22);
+
+  background: #070a33;
+}
+
+
 
     /* NAV — top center */
     #nav {
@@ -312,4 +323,136 @@
 html {
   scrollbar-color: #e8e0d0 #e4bd6f; /* thumb track */
 }
+
+/* ═════════ CURSOR TOGGLE ═════════ */
+
+#cursor-toggle-wrap {
+  width: 100%;
+  text-align: center;
+  padding: 40px 0 25px 0;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  color: var(--gold-light);
+  opacity: 0.75;
+}
+
+#cursor-toggle-wrap label {
+  cursor: pointer;
+}
+
+#cursor-toggle-wrap input[type="checkbox"] {
+  margin-right: 8px;
+  transform: scale(1.1);
+  accent-color: #c9a84c;
+}
+
+body.custom-cursor {
+  cursor: url("img/cursor.png"), auto;
+}
+
+body.custom-cursor a,
+body.custom-cursor button,
+body.custom-cursor input,
+body.custom-cursor label,
+body.custom-cursor svg,
+body.custom-cursor div,
+body.custom-cursor span {
+  cursor: url("img/cursor.png"), auto;
+}
+
+/* Falling cursor rain */
+.cursor-rain {
+  position: fixed;
+  top: -100px;
+  pointer-events: none;
+  z-index: 9999;
+  user-select: none;
+  animation: cursorFall linear forwards;
+  opacity: 0.9;
+}
+
+@keyframes cursorFall {
+  from {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.95;
+  }
+  to {
+    transform: translateY(120vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.foot {
+  width: 100%;
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 12px;
+
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  opacity: 0.75;
+}
+
+
+/* ══════════════════════════════════════════
+   GLOBAL ANNOUNCEMENT BANNER
+══════════════════════════════════════════ */
+#announce-banner {
+  position: fixed;
+  top: 58px;
+  left: var(--fi);
+  right: var(--fi);
+  z-index: 75;
+
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  padding: 10px 16px;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.22);
+  border-top: none;
+
+  backdrop-filter: blur(6px);
+
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+#announce-banner.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#announce-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--gold-light);
+  opacity: 0.9;
+}
+
+#announce-close {
+  background: none;
+  border: none;
+  color: var(--gold);
+  font-size: 0.9rem;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+#announce-close:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
 
