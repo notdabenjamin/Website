@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NDBenjamin was The Imposter</title>
+
+  <style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+    /* Centers the video container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  video {
+    /* Ensures the video tries to fill the screen */
+    width: 100vw;
+    height: 100vh;
+    /* Maintains aspect ratio while fitting inside the screen */
+    object-fit: contain; 
+    /* Centers the video content within the video element */
+    display: block;
+  }
+</style>
+
+
+</head>
+<body>
+
+  <video id="video" autoplay muted playsinline>
+    <source src="https://notdb.pages.dev/external/eject.mp4" type="video/mp4">
+  </video>
+
+  <script>
+    const video = document.getElementById("video");
+
+    // Go back to index.html when done
+    video.addEventListener("ended", () => {
+      window.location.href = "index.html";
+      console.log("RETURNING.. STANDBY")
+    });
+
+    // Try entering fullscreen
+    async function enterFullscreen() {
+      try {
+        if (document.documentElement.requestFullscreen) {
+          await document.documentElement.requestFullscreen();
+        }
+      } catch (err) {
+        console.log("Fullscreen blocked.");
+      }
+    }
+
+    video.addEventListener("loadeddata", enterFullscreen);
+  </script>
+
+</body>
+</html>
